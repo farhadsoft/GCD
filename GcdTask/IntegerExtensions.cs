@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Linq;
 
 namespace GcdTask
 {
@@ -14,7 +15,33 @@ namespace GcdTask
         /// <exception cref="ArgumentOutOfRangeException">Thrown when one or two numbers are int.MinValue.</exception>
         public static int FindGcd(int a, int b)
         {
-            throw new NotImplementedException("You need to implement this method.");
+            if (a == 0 && b == 0)
+            {
+                throw new ArgumentException("Thrown when all numbers are 0 at the same time.");
+            }
+
+            if (a == int.MinValue || b == int.MinValue)
+            {
+                throw new ArgumentOutOfRangeException($"Thrown when one or two numbers are int.MinValue.");
+            }
+
+            int result = GCD(a, b);
+            if (result < 0)
+            {
+                result = Math.Abs(result);
+            }
+
+            return result;
+        }
+
+        public static int GCD(int[] numbers)
+        {
+            return numbers.Aggregate(GCD);
+        }
+
+        public static int GCD(int a, int b)
+        {
+            return b == 0 ? a : GCD(b, a % b);
         }
     }
 }
